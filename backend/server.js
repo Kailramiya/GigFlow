@@ -7,9 +7,17 @@ import setupSocketHandlers from './src/socket/socketHandlers.js';
 connectDB();
 
 const server = http.createServer(app);
+
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  process.env.CLIENT_URL?.replace(/\/$/, ''), // Remove trailing slash
+  'http://localhost:3000',
+  'http://localhost:5173'
+].filter(Boolean);
+
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin: allowedOrigins,
     credentials: true,
   },
 });
