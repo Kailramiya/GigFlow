@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { fetchGigById } from '../store/slices/gigsSlice.js';
 
 export default function GigDetailPage() {
@@ -99,7 +99,7 @@ export default function GigDetailPage() {
 
       {!user && (
         <p style={{ color: 'blue', marginTop: '20px' }}>
-          <a href="/auth">Login</a> to submit a bid
+          <Link to="/auth" style={{ color: 'blue', textDecoration: 'underline' }}>Login</Link> to submit a bid
         </p>
       )}
     </div>
