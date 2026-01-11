@@ -34,6 +34,24 @@ export const fetchMyBids = createAsyncThunk(
   }
 );
 
+export const createBid = createAsyncThunk(
+  'bids/createBid',
+  async ({ gigId, price, message }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${API_URL}/bids`,
+        { gigId, price, message },
+        { withCredentials: true }
+      );
+      return response.data.bid;
+    } catch (error) {
+      const message = error.response?.data?.message || 'Failed to submit bid';
+      const errors = error.response?.data?.errors || {};
+      return rejectWithValue({ message, errors });
+    }
+  }
+);
+
 export const updateBidStatus = createAsyncThunk(
   'bids/updateBidStatus',
   async ({ bidId, status }, { rejectWithValue }) => {
@@ -133,6 +151,21 @@ const bidsSlice = createSlice({
       .addCase(updateBidStatus.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Failed to update bid status';
+      });
+
+    // createBid
+    builder
+      .addCase(createBid.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createBid.fulfilled, (state, action) => {
+        state.loading = false;
+        state.myBids.push(action.payload);
+      })
+      .addCase(createBid.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Failed to submit bid';
       });
 
     // hireBid
