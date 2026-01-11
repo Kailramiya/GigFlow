@@ -12,10 +12,11 @@ export default function DashboardPage() {
   useEffect(() => {
     if (user) {
       dispatch(fetchMyGigs());
-    } else {
+    } else if (!loading) {
+      // Only redirect if not loading (to avoid premature redirect)
       navigate('/auth');
     }
-  }, [dispatch, user, navigate]);
+  }, [dispatch, user, loading, navigate]);
 
   const handleCreateNewGig = () => {
     navigate('/create-gig');

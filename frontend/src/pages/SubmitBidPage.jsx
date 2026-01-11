@@ -6,7 +6,9 @@ import { createBid, fetchMyBids } from '../store/slices/bidsSlice.js';
 import { validatePrice, validateBidMessage } from '../utils/validation.js';
 
 export default function SubmitBidPage() {
-  const { gigId } = useParams();
+  let { gigId } = useParams();
+  // Clean up gigId in case it has `:1` or other artifacts
+  gigId = gigId?.split(':')[0];
   const dispatch = useDispatch();
   const navigate = useNavigate();
   

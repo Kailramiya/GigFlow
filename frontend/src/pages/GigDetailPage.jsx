@@ -6,7 +6,9 @@ import { fetchGigById } from '../store/slices/gigsSlice.js';
 export default function GigDetailPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { gigId } = useParams();
+  let { gigId } = useParams();
+  // Clean up gigId in case it has `:1` or other artifacts
+  gigId = gigId?.split(':')[0];
   const { currentGig, loading, error } = useSelector(state => state.gigs);
   const { user } = useSelector(state => state.auth);
 

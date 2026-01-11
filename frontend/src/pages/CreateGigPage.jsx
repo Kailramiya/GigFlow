@@ -33,8 +33,9 @@ export default function CreateGigPage() {
       budget: parseFloat(formData.budget),
     }));
     
-    if (result.payload) {
-      navigate('/dashboard');
+    if (createGig.fulfilled.match(result)) {
+      // Navigate to the specific gig page or feed instead of dashboard
+      navigate('/');
     }
   };
 

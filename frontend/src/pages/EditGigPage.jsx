@@ -5,7 +5,9 @@ import { fetchGigById, updateGig } from '../store/slices/gigsSlice.js';
 import { validateGigTitle, validateDescription, validateBudget } from '../utils/validation.js';
 
 export default function EditGigPage() {
-  const { gigId } = useParams();
+  let { gigId } = useParams();
+  // Clean up gigId in case it has `:1` or other artifacts
+  gigId = gigId?.split(':')[0];
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
@@ -97,13 +99,16 @@ export default function EditGigPage() {
 
     setIsSubmitting(false);
 
-    if (result.payload) {
+    // Check if the update was successful
+    if (result.payload && result.payload._id) {
+      // Success - navigate to gig detail page
       navigate(`/gig/${gigId}`);
-    } else if (result.payload === undefined) {
-      const errorData = result;
-      if (errorData.errors) {
-        setFieldErrors(errorData.errors);
-      }
+    } else if (result.payload?.errors) {
+      // Error - show field errors if available
+      setFieldErrors(result.payload.errors);
+    } else if (typeof result.payload === 'string') {
+      // Server returned an error message
+      setFieldErrors({ general: result.payload });
     }
   };
 

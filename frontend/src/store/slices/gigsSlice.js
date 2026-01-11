@@ -17,6 +17,15 @@ export const fetchAllGigs = createAsyncThunk(
         `${API_URL}/gigs?${params.toString()}`,
         { withCredentials: true }
       );
+      
+      // Clean up gig IDs in case they have artifacts like `:1`
+      if (response.data.gigs) {
+        response.data.gigs = response.data.gigs.map(gig => ({
+          ...gig,
+          _id: gig._id?.split(':')[0] || gig._id,
+        }));
+      }
+      
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch gigs');
@@ -28,8 +37,11 @@ export const fetchGigById = createAsyncThunk(
   'gigs/fetchGigById',
   async (gigId, { rejectWithValue }) => {
     try {
+      // Clean up gigId in case it has `:1` or other artifacts
+      const cleanGigId = gigId?.split(':')[0] || gigId;
+      
       const response = await axios.get(
-        `${API_URL}/gigs/${gigId}`,
+        `${API_URL}/gigs/${cleanGigId}`,
         { withCredentials: true }
       );
       return response.data.gig;
@@ -74,8 +86,11 @@ export const updateGig = createAsyncThunk(
   'gigs/updateGig',
   async ({ gigId, title, description, budget, status }, { rejectWithValue }) => {
     try {
+      // Clean up gigId in case it has `:1` or other artifacts
+      const cleanGigId = gigId?.split(':')[0] || gigId;
+      
       const response = await axios.put(
-        `${API_URL}/gigs/${gigId}`,
+        `${API_URL}/gigs/${cleanGigId}`,
         { title, description, budget, status },
         { withCredentials: true }
       );
@@ -90,11 +105,14 @@ export const deleteGig = createAsyncThunk(
   'gigs/deleteGig',
   async (gigId, { rejectWithValue }) => {
     try {
+      // Clean up gigId in case it has `:1` or other artifacts
+      const cleanGigId = gigId?.split(':')[0] || gigId;
+      
       await axios.delete(
-        `${API_URL}/gigs/${gigId}`,
+        `${API_URL}/gigs/${cleanGigId}`,
         { withCredentials: true }
       );
-      return gigId;
+      return cleanGigId;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to delete gig');
     }
