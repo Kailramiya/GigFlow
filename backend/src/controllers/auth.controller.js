@@ -18,8 +18,9 @@ const setTokenCookie = (res, token) => {
   res.cookie('token', token, {
     httpOnly: true, // Prevents client-side JavaScript access
     secure: process.env.NODE_ENV === 'production', // HTTPS only in production
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'none' for cross-origin in production
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'lax' allows same-origin requests
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    path: '/', // Cookie available for all paths
   });
 };
 
@@ -169,6 +170,7 @@ export const logout = async (req, res) => {
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 0,
+      path: '/', // Match the path from setTokenCookie
     });
 
     res.status(200).json({

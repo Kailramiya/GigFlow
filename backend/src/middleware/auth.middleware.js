@@ -9,6 +9,7 @@ export const protect = async (req, res, next) => {
 
     // Check if token exists
     if (!token) {
+      console.log('Auth error: No token in cookies. Available cookies:', Object.keys(req.cookies));
       return res.status(401).json({
         success: false,
         message: 'Not authorized, no token provided',
