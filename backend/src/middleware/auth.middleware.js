@@ -6,15 +6,19 @@ export const protect = async (req, res, next) => {
   try {
     // Get token from cookies
     const token = req.cookies.token;
+    console.log('🔍 Auth check for:', req.method, req.path);
+    console.log('📦 Cookies received:', Object.keys(req.cookies));
 
     // Check if token exists
     if (!token) {
-      console.log('Auth error: No token in cookies. Available cookies:', Object.keys(req.cookies));
+      console.log('❌ No token found in cookies for', req.path);
       return res.status(401).json({
         success: false,
         message: 'Not authorized, no token provided',
       });
     }
+
+    console.log('✅ Token found, verifying...');
 
     // Verify token
     try {
@@ -30,15 +34,18 @@ export const protect = async (req, res, next) => {
         });
       }
       
+      console.log('✅ User authenticated:', user.email);
       req.user = user;
       next();
     } catch (error) {
+      console.log('❌ Token verification failed:', error.message);
       return res.status(401).json({
         success: false,
         message: 'Not authorized, token invalid or expired',
       });
     }
   } catch (error) {
+    console.error('🔴 Auth middleware error:', error.message);
     res.status(500).json({
       success: false,
       message: 'Server error in authentication',

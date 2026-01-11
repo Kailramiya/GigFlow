@@ -18,7 +18,7 @@ const setTokenCookie = (res, token) => {
   res.cookie('token', token, {
     httpOnly: true, // Prevents client-side JavaScript access
     secure: process.env.NODE_ENV === 'production', // HTTPS only in production
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'lax' allows same-origin requests
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict', // 'strict' for same-origin in dev, 'none' for cross-origin in production
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     path: '/', // Cookie available for all paths
   });
@@ -137,6 +137,7 @@ export const login = async (req, res) => {
 
     // Generate token and set cookie
     const token = generateToken(user._id);
+    console.log('🔐 Setting token cookie with sameSite:', process.env.NODE_ENV === 'production' ? 'none' : 'strict');
     setTokenCookie(res, token);
 
     // Send response (exclude password)
@@ -168,7 +169,7 @@ export const logout = async (req, res) => {
     res.cookie('token', '', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
       maxAge: 0,
       path: '/', // Match the path from setTokenCookie
     });
