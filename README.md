@@ -2,8 +2,18 @@
 
 > A modern, full-stack freelance marketplace platform connecting clients with freelancers through an intuitive bidding system.
 
+## 🌐 Live Application
+
+**🎯 Try it now:** [https://gig-flow-one.vercel.app](https://gig-flow-one.vercel.app)
+
 [![Live Demo](https://img.shields.io/badge/demo-live-success?style=for-the-badge)](https://gig-flow-one.vercel.app)
 [![Backend API](https://img.shields.io/badge/API-live-blue?style=for-the-badge)](https://gigflow-1gye.onrender.com)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/Kailramiya/GigFlow)
+
+**Quick Links:**
+- 🖥️ **Frontend:** [https://gig-flow-one.vercel.app](https://gig-flow-one.vercel.app)
+- ⚙️ **Backend API:** [https://gigflow-1gye.onrender.com](https://gigflow-1gye.onrender.com)
+- 📚 **Source Code:** [https://github.com/Kailramiya/GigFlow](https://github.com/Kailramiya/GigFlow)
 
 ---
 
