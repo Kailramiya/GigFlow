@@ -12,7 +12,7 @@ export default function SubmitBidPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-  const { currentGig, loading: gigLoading } = useSelector(state => state.gigs);
+  const { currentGig, loading: gigLoading, error: gigError } = useSelector(state => state.gigs);
   const { myBids, loading, error } = useSelector(state => state.bids);
   const { user } = useSelector(state => state.auth);
 
@@ -24,7 +24,9 @@ export default function SubmitBidPage() {
   const [fieldErrors, setFieldErrors] = useState({});
 
   // Check if user has already submitted a bid for this gig
-  const existingBid = myBids.find(bid => bid.gigId._id === gigId || bid.gigId === gigId);
+  const existingBid = myBids?.find(bid => 
+    bid?.gigId?._id === gigId || bid?.gigId === gigId
+  );
 
   useEffect(() => {
     if (gigId) {
@@ -95,6 +97,10 @@ export default function SubmitBidPage() {
 
   if (gigLoading && !currentGig) {
     return <div style={{ padding: '20px' }}>Loading gig details...</div>;
+  }
+
+  if (gigError) {
+    return <div style={{ padding: '20px', color: 'red' }}>Error loading gig: {gigError}</div>;
   }
 
   if (!currentGig) {
