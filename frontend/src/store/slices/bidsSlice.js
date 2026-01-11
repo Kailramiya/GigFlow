@@ -56,7 +56,7 @@ export const updateBidStatus = createAsyncThunk(
   'bids/updateBidStatus',
   async ({ bidId, status }, { rejectWithValue }) => {
     try {
-      const response = await axios.patch(
+      const response = await axios.put(
         `${API_URL}/bids/${bidId}`,
         { status },
         { withCredentials: true }

@@ -107,10 +107,10 @@ export default function BidsPage() {
               {/* Bidder Info */}
               <div style={{ marginBottom: '15px' }}>
                 <h3 style={{ margin: '0 0 5px 0' }}>
-                  {bid.postedBy.name}
+                  {bid.freelancerId?.name || 'Unknown Freelancer'}
                 </h3>
                 <p style={{ margin: '5px 0', color: '#666' }}>
-                  Email: {bid.postedBy.email}
+                  Email: {bid.freelancerId?.email || 'N/A'}
                 </p>
               </div>
 
