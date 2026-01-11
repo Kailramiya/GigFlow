@@ -30,7 +30,7 @@ export default function GigDetailPage() {
     return <div style={{ padding: '20px' }}>Gig not found.</div>;
   }
 
-  const isOwner = user?.id === currentGig.ownerId._id;
+  const isOwner = user?.id === currentGig.ownerId?._id;
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
@@ -46,7 +46,7 @@ export default function GigDetailPage() {
         
         <p><strong>Budget:</strong> ${currentGig.budget}</p>
         <p><strong>Status:</strong> {currentGig.status}</p>
-        <p><strong>Owner:</strong> {currentGig.ownerId.name} ({currentGig.ownerId.email})</p>
+        <p><strong>Owner:</strong> {currentGig.ownerId?.name || 'Unknown Owner'} ({currentGig.ownerId?.email || 'N/A'})</p>
         <p><strong>Posted:</strong> {new Date(currentGig.createdAt).toLocaleDateString()}</p>
       </div>
 

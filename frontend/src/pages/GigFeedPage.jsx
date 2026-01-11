@@ -74,7 +74,7 @@ export default function GigFeedPage() {
                     <h3>{gig.title}</h3>
                     <p>{gig.description.substring(0, 100)}...</p>
                     <p><strong>Budget:</strong> ${gig.budget}</p>
-                    <p><strong>Owner:</strong> {gig.ownerId.name}</p>
+                    <p><strong>Owner:</strong> {gig.ownerId?.name || 'Unknown Owner'}</p>
                     <p><strong>Status:</strong> {gig.status}</p>
                   </div>
                 ))}
